@@ -51,6 +51,7 @@ const translations = {
     enterCode: 'Введите код из СМС',
     code: 'Код',
     confirm: 'Подтвердить',
+    logout: 'Выйти',
   },
   kk: {
     taxi: 'Такси',
@@ -92,6 +93,7 @@ const translations = {
     enterCode: 'СМС-тан кодты енгізіңіз',
     code: 'Код',
     confirm: 'Растау',
+    logout: 'Шығу',
   },
 };
 
@@ -161,16 +163,19 @@ export default function Index() {
               {lang.toUpperCase()}
             </Button>
             
-            {userType === 'driver' && !isLoggedIn ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowLogin(true)}
-                className="h-8 px-3"
-              >
-                {t.login}
-              </Button>
-            ) : (
+            <div className="flex items-center gap-2">
+              {userType === 'driver' && isLoggedIn && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsLoggedIn(false)}
+                  className="h-8 px-3"
+                >
+                  <Icon name="LogOut" size={16} className="mr-1" />
+                  {t.logout}
+                </Button>
+              )}
+              
               <Button
                 variant="ghost"
                 size="icon"
@@ -183,7 +188,7 @@ export default function Index() {
               >
                 <Icon name={userType === 'client' ? 'User' : 'Car'} size={20} />
               </Button>
-            )}
+            </div>
           </div>
         </div>
       </header>

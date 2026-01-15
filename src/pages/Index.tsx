@@ -43,6 +43,14 @@ const translations = {
     food: 'Еда',
     phone: 'Телефон',
     phonePlaceholder: '+7 (___) ___-__-__',
+    login: 'Войти',
+    loginTitle: 'Вход для водителя',
+    loginSubtitle: 'Введите номер телефона для входа',
+    enterPhone: 'Введите номер',
+    sendCode: 'Получить код',
+    enterCode: 'Введите код из СМС',
+    code: 'Код',
+    confirm: 'Подтвердить',
   },
   kk: {
     taxi: 'Такси',
@@ -76,6 +84,14 @@ const translations = {
     food: 'Тамақ',
     phone: 'Телефон',
     phonePlaceholder: '+7 (___) ___-__-__',
+    login: 'Кіру',
+    loginTitle: 'Жүргізуші үшін кіру',
+    loginSubtitle: 'Кіру үшін телефон номеріңізді енгізіңіз',
+    enterPhone: 'Номерді енгізіңіз',
+    sendCode: 'Код алу',
+    enterCode: 'СМС-тан кодты енгізіңіз',
+    code: 'Код',
+    confirm: 'Растау',
   },
 };
 
@@ -99,6 +115,8 @@ export default function Index() {
   const [userType, setUserType] = useState<UserType>('client');
   const [serviceType, setServiceType] = useState<'taxi' | 'courier'>('taxi');
   const [phone, setPhone] = useState('');
+  const [showLogin, setShowLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const t = translations[lang];
 
   const formatPhone = (value: string) => {
@@ -143,13 +161,29 @@ export default function Index() {
               {lang.toUpperCase()}
             </Button>
             
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setUserType(userType === 'client' ? 'driver' : 'client')}
-            >
-              <Icon name={userType === 'client' ? 'User' : 'Car'} size={20} />
-            </Button>
+            {userType === 'driver' && !isLoggedIn ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowLogin(true)}
+                className="h-8 px-3"
+              >
+                {t.login}
+              </Button>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  if (userType === 'driver') {
+                    setIsLoggedIn(false);
+                  }
+                  setUserType(userType === 'client' ? 'driver' : 'client');
+                }}
+              >
+                <Icon name={userType === 'client' ? 'User' : 'Car'} size={20} />
+              </Button>
+            )}
           </div>
         </div>
       </header>
@@ -287,6 +321,41 @@ export default function Index() {
                 </Card>
               ))}
             </div>
+          </div>
+        ) : !isLoggedIn ? (
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <Card className="w-full max-w-md p-6">
+              <div className="space-y-6">
+                <div className="text-center space-y-2">
+                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon name="Car" size={32} className="text-primary-foreground" />
+                  </div>
+                  <h2 className="text-2xl font-bold">{t.loginTitle}</h2>
+                  <p className="text-muted-foreground">{t.loginSubtitle}</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">{t.phone}</label>
+                    <Input 
+                      placeholder={t.phonePlaceholder}
+                      type="tel"
+                      value={phone}
+                      onChange={handlePhoneChange}
+                      maxLength={18}
+                    />
+                  </div>
+
+                  <Button 
+                    className="w-full" 
+                    size="lg"
+                    onClick={() => setIsLoggedIn(true)}
+                  >
+                    {t.sendCode}
+                  </Button>
+                </div>
+              </div>
+            </Card>
           </div>
         ) : (
           <div className="space-y-6">

@@ -98,7 +98,29 @@ export default function Index() {
   const [lang, setLang] = useState<Language>('ru');
   const [userType, setUserType] = useState<UserType>('client');
   const [serviceType, setServiceType] = useState<'taxi' | 'courier'>('taxi');
+  const [phone, setPhone] = useState('');
   const t = translations[lang];
+
+  const formatPhone = (value: string) => {
+    const cleaned = value.replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/);
+    
+    if (!match) return value;
+    
+    const parts = [];
+    if (match[1]) parts.push('+' + match[1]);
+    if (match[2]) parts.push(' (' + match[2]);
+    if (match[3]) parts.push((match[2] ? ') ' : '') + match[3]);
+    if (match[4]) parts.push('-' + match[4]);
+    if (match[5]) parts.push('-' + match[5]);
+    
+    return parts.join('');
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhone(e.target.value);
+    setPhone(formatted);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -171,7 +193,14 @@ export default function Index() {
 
                     <div className="flex items-center gap-3">
                       <Icon name="Phone" size={16} className="text-muted-foreground" />
-                      <Input placeholder={t.phonePlaceholder} type="tel" className="flex-1" />
+                      <Input 
+                        placeholder={t.phonePlaceholder} 
+                        type="tel" 
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        maxLength={18}
+                        className="flex-1" 
+                      />
                     </div>
                   </div>
 
@@ -203,7 +232,14 @@ export default function Index() {
 
                     <div className="flex items-center gap-3">
                       <Icon name="Phone" size={16} className="text-muted-foreground" />
-                      <Input placeholder={t.phonePlaceholder} type="tel" className="flex-1" />
+                      <Input 
+                        placeholder={t.phonePlaceholder} 
+                        type="tel" 
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        maxLength={18}
+                        className="flex-1" 
+                      />
                     </div>
                   </div>
 

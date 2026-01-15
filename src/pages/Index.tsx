@@ -41,6 +41,8 @@ const translations = {
     package: 'Посылка',
     documents: 'Документы',
     food: 'Еда',
+    phone: 'Телефон',
+    phonePlaceholder: '+7 (___) ___-__-__',
   },
   kk: {
     taxi: 'Такси',
@@ -72,6 +74,8 @@ const translations = {
     package: 'Сәлем',
     documents: 'Құжаттар',
     food: 'Тамақ',
+    phone: 'Телефон',
+    phonePlaceholder: '+7 (___) ___-__-__',
   },
 };
 
@@ -154,7 +158,7 @@ export default function Index() {
             <Card className="p-5">
               {serviceType === 'taxi' ? (
                 <div className="space-y-4">
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-primary flex-shrink-0" />
                       <Input placeholder={t.from} className="flex-1" />
@@ -163,6 +167,11 @@ export default function Index() {
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-destructive flex-shrink-0" />
                       <Input placeholder={t.to} className="flex-1" />
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Icon name="Phone" size={16} className="text-muted-foreground" />
+                      <Input placeholder={t.phonePlaceholder} type="tel" className="flex-1" />
                     </div>
                   </div>
 
@@ -181,7 +190,7 @@ export default function Index() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-primary flex-shrink-0" />
                       <Input placeholder={t.from} className="flex-1" />
@@ -190,6 +199,11 @@ export default function Index() {
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-destructive flex-shrink-0" />
                       <Input placeholder={t.to} className="flex-1" />
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Icon name="Phone" size={16} className="text-muted-foreground" />
+                      <Input placeholder={t.phonePlaceholder} type="tel" className="flex-1" />
                     </div>
                   </div>
 
@@ -213,12 +227,6 @@ export default function Index() {
                 </div>
               )}
             </Card>
-
-            <div className="relative h-64 bg-muted rounded-lg overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Icon name="MapPin" size={48} className="text-muted-foreground" />
-              </div>
-            </div>
 
             <div className="space-y-3">
               <h2 className="text-lg font-semibold">{t.orderHistory}</h2>
@@ -324,12 +332,6 @@ export default function Index() {
                   </Button>
                 </Card>
               ))}
-            </div>
-
-            <div className="relative h-64 bg-muted rounded-lg overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Icon name="MapPin" size={48} className="text-muted-foreground" />
-              </div>
             </div>
           </div>
         )}
